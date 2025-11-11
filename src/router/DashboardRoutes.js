@@ -8,7 +8,7 @@ const DashboardRoutes = {
     {
       name: 'Dashboard',
       path: 'dashboard',
-      component: import('../views/pages/DashboardPage.vue'),
+      component: () => import ('../views/pages/DashboardPage.vue'),
       meta: {
         requiresAuth: true
       }
