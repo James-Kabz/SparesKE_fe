@@ -1,11 +1,11 @@
-<script setup></script>
+<script setup>
+import { Toast } from '@stlhorizon/vue-ui';
+
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <Toast :rich-colors="true" :close-button="true" :visible-toasts="3" />
+  <RouterView />
 </template>
 
 <style scoped></style>
