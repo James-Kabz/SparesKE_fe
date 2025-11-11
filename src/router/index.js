@@ -1,12 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ErrorRoutes from './ErrorRoutes'
 import AuthRoutes from './AuthRoutes'
+import { useAuthStore } from '@/stores/auth/auth'
+import { usePermissions } from '@/utils/permissions'
+import DashboardRoutes from './DashboardRoutes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     ErrorRoutes,
     AuthRoutes,
+    DashboardRoutes,
     {
       path: '/:pathMatch(.*)*',
       name: '404',
