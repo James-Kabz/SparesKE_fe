@@ -8,7 +8,23 @@ const DashboardRoutes = {
     {
       name: 'Dashboard',
       path: 'dashboard',
-      component: () => import ('../views/pages/DashboardPage.vue'),
+      component: () => import ('../views/dashboard/DashboardPage.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      name: 'Parts',
+      path: 'parts',
+      component: () => import ('../views/parts/PartList.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      name: 'Part Categories',
+      path: 'part-categories',
+      component: () => import ('../views/categories/CategoryPage.vue'),
       meta: {
         requiresAuth: true
       }

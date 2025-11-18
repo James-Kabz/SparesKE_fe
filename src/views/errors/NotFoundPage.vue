@@ -4,6 +4,7 @@ import { ErrorLayout } from '@stlhorizon/vue-ui'
 
 <template>
   <ErrorLayout
+    :brand-name="'Spares Ke'"
     :error-code="errorCode"
     :show-additional-info="true"
     :show-support-button="false"

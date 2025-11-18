@@ -53,6 +53,7 @@ const handleContactSupport = () => {
 </script>
 <template>
   <ErrorLayout
+  :brand-name="'Spares Ke'"
     error-type="401"
     :error-code="errorCode"
     :show-additional-info="true"
