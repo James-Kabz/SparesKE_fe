@@ -46,8 +46,9 @@ export const useCategoryStore = defineStore('category', {
     async createCategory(category) {
       this.isLoading = true
       try {
-        const response = await fetchWrapper.post(`/categories`, category)
-        this.category = response.data.category || response.data
+        await fetchWrapper.post(`/categories`, category)
+        await this.fetchCategories()
+        toast.success('Category created successfully!')
         return { success: true }
       } catch (error) {
         const errorMessage = error?.response?.data?.message || error?.message || 'Failed to create category'
@@ -59,11 +60,12 @@ export const useCategoryStore = defineStore('category', {
     },
 
     // update category
-    async updateCategory(category) {
+    async updateCategory(id, data) {
       this.isLoading = true
       try {
-        const response = await fetchWrapper.put(`/categories`, category)
-        this.category = response.data.category || response.data
+        const response = await fetchWrapper.put(`/categories/${id}`, data)
+        await this.fetchCategories()
+        toast.success('Category updated successfully!')
         return { success: true }
       } catch (error) {
         const errorMessage = error?.response?.data?.message || error?.message || 'Failed to update category'
@@ -75,11 +77,13 @@ export const useCategoryStore = defineStore('category', {
     },
 
     // delete category
-    async deleteCategory(category) {
+    async deleteCategory(id) {
       this.isLoading = true
       try {
-        const response = await fetchWrapper.delete(`/categoriesp`, category)
-        this.category = response.data.category || response.data
+        await fetchWrapper.delete(`/categories/${id}`)
+        // Refetch categories after delete
+        await this.fetchCategories()
+        toast.success('Category deleted successfully!')
         return { success: true }
       } catch (error) {
         const errorMessage = error?.response?.data?.message || error?.message || 'Failed to delete category'

@@ -45,13 +45,6 @@ const user = computed(
 // Management settings items
 const managementSettingsItems = [
   {
-    name: 'company-management',
-    label: 'Company Management',
-    route: '/company-management',
-    icon: 'building',
-    permission: 'view.user',
-  },
-  {
     name: 'users',
     label: 'User Management',
     route: '/user-management',
@@ -61,37 +54,9 @@ const managementSettingsItems = [
   {
     name: 'roles',
     label: 'Roles & Permissions',
-    route: '/role-management',
+    route: '/roles-permissions',
     icon: 'people-arrows',
     permission: 'view.role',
-  },
-  {
-    name: 'organisations',
-    label: 'Organisation Settings',
-    route: '/organisation-settings',
-    icon: 'building',
-    permission: 'view.organisation',
-  },
-  {
-    name: 'org-users',
-    label: 'My Organisations',
-    route: '/my-organisations',
-    icon: 'users',
-    permission: 'manage.organisation',
-  },
-  {
-    type: 'section',
-    name: 'Settings',
-    label: 'Risk Settings',
-    icon: 'cog',
-    permission: 'view.risk',
-  },
-  {
-    name: 'Risk Management',
-    label: 'Risk Management',
-    route: '/risk-settings',
-    icon: 'triangle-exclamation',
-    permission: 'view.risk',
   },
 ]
 

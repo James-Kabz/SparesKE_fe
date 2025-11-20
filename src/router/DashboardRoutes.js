@@ -13,6 +13,15 @@ const DashboardRoutes = {
         requiresAuth: true
       }
     },
+    // roles and permission
+    {
+      name: 'Roles & Permissions',
+      path: 'roles-permissions',
+      component: () => import ('../views/super-admin/role-permissions/MainRolePermission.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
     {
       name: 'Parts',
       path: 'parts',
@@ -28,7 +37,7 @@ const DashboardRoutes = {
       meta: {
         requiresAuth: true
       }
-    }
+    },
   ]
 }
 
