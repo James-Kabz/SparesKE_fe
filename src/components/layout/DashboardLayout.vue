@@ -182,7 +182,7 @@ const profileMenuItems = [
   {
     name: 'profile',
     label: 'Profile',
-    route: '/profile/:id',
+    route: '/vendor-profile',
     icon: 'user',
   },
   {
