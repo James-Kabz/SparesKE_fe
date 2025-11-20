@@ -82,7 +82,7 @@ const handleProfileAction = async (action) => {
     // Handle different profile actions
     switch (action.name) {
       case 'profile':
-        router.push('/profile')
+        router.push('/profile/:id')
         break
       case 'settings':
         router.push('/settings')

@@ -22,6 +22,17 @@ const DashboardRoutes = {
         requiresAuth: true
       }
     },
+    // vendor
+    // get my vendor profile
+    {
+      name: 'Vendor Profile',
+      path: '/profile/:id',
+      component: () => import ('../views/vendor/VendorProfilePage.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    //
     {
       name: 'Parts',
       path: 'parts',
