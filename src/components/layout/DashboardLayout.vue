@@ -58,6 +58,13 @@ const managementSettingsItems = [
     icon: 'people-arrows',
     permission: 'view.role',
   },
+    {
+    name: 'pickup-points',
+    label: 'Pickup Points',
+    route: '/pickup-points',
+    icon: 'location-dot',
+    permission: 'manage.vendor_pickup_points',
+  },
 ]
 
 // Helper function to get permissions from item

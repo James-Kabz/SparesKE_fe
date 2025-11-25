@@ -32,6 +32,16 @@ const DashboardRoutes = {
         requiresAuth: true
       }
     },
+    // display vendor pickup points
+    {
+      name: 'Pickup Points',
+      path: 'pickup-points',
+      component: () => import ('../views/vendor/VendorPickupPage.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
+
     //
     {
       name: 'Parts',
