@@ -163,12 +163,18 @@ const handleOrgTypeFormSubmit = async ({ formData, modalType, originalData }) =>
   let result
 
   if (modalType === 'create') {
-    result = await pickupPointStore.createPickupPoint(formData)
+    // Add vendor_id to formData when creating
+    const dataWithVendor = {
+      ...formData,
+      vendor_id: currentVendor.value?.id
+    }
+    result = await pickupPointStore.createPickupPoint(dataWithVendor)
   } else if (modalType === 'edit') {
     result = await pickupPointStore.updatePickupPoint(originalData.id, formData)
   }
 
   if (result.success) {
+    await pickupPointStore.fetchPickupPoints()
     pickupPoints.value = pickupPointStore.pickupPoint
     closeModal()
   }
@@ -178,20 +184,23 @@ const handleConfirmDelete = async ({ id }) => {
   const result = await pickupPointStore.deletePickupPoint(id)
 
   if (result.success) {
+    await pickupPointStore.fetchPickupPoints()
     pickupPoints.value = pickupPointStore.pickupPoint
     closeModal()
   }
 }
 
 onMounted(async () => {
-  const result = await pickupPointStore.initializeData()
-  if (result.success) {
-    pickupPoints.value = pickupPointStore.pickupPoint
-  }
-
+  // First fetch the current vendor
   const vendorResult = await vendorStore.fetchMyVendor()
   if (vendorResult.success) {
     currentVendor.value = vendorResult.vendor
+  }
+
+  // Then fetch pickup points
+  const result = await pickupPointStore.initializeData()
+  if (result.success) {
+    pickupPoints.value = pickupPointStore.pickupPoint
   }
 })
 </script>
@@ -229,7 +238,9 @@ onMounted(async () => {
         :showPagination="true"
         emptyText="No Pickup Points found"
         @selection-change="selectedFields = $event"
-      />
+      >
+      <!-- display if active or -->
+      </DataTable>
 
     <ReusableFormModal
       v-model="modals.form.show"
