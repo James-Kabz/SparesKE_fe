@@ -4,6 +4,7 @@ import { useAuth } from '@/composables/useAuth'
 import { usePickupPointStore } from '@/stores/vendor/pickupPoint'
 import { useVendorStore } from '@/stores/vendor/vendor'
 import {
+  Badge,
   DataTable,
   DataTableFilters,
   DataTableToolBar,
@@ -56,7 +57,7 @@ const allColumns = [
   { key: 'name', label: 'Pickup Point Name', sortable: true },
   { key: 'location', label: 'Location', sortable: true },
   { key: 'contact_number', label: 'Contact Number', sortable: true },
-  { key: 'active', label: 'Active', sortable: true },
+  { key: 'active', label: 'Status', sortable: true },
 ]
 
 const visibleColumns = ref(['name', 'location', 'contact_number', 'active'])
@@ -198,7 +199,7 @@ onMounted(async () => {
   }
 
   // Then fetch pickup points
-  const result = await pickupPointStore.initializeData()
+  const result = await pickupPointStore.fetchVendorPickupPoints()
   if (result.success) {
     pickupPoints.value = pickupPointStore.pickupPoint
   }
@@ -239,7 +240,11 @@ onMounted(async () => {
         emptyText="No Pickup Points found"
         @selection-change="selectedFields = $event"
       >
-      <!-- display if active or -->
+        <template #cell-active="{ item }">
+          <Badge :variant="item.active ? 'success' : 'warning'">
+            {{ item.active ? 'Active' : 'Inactive' }}
+          </Badge>
+        </template>
       </DataTable>
 
     <ReusableFormModal
