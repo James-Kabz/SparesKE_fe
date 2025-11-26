@@ -92,6 +92,22 @@ const allNavigationItems = [
   },
   {
     type: 'link',
+    name: 'vendor-parts',
+    label: 'My Parts',
+    route: '/vendor-parts',
+    icon: 'cube',
+    permission: 'view.vendor_parts',
+  },
+  // {
+  //   type: 'link',
+  //   name: 'vendors',
+  //   label: 'Vendors',
+  //   route: '/vendors',
+  //   icon: 'users',
+  //   permission: 'view.vendor',
+  // },
+  {
+    type: 'link',
     name: 'parts',
     label: 'Part',
     route: '/parts',

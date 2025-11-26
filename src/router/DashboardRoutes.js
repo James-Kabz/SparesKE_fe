@@ -41,6 +41,15 @@ const DashboardRoutes = {
         requiresAuth: true
       }
     },
+    // display vendor parts
+    {
+      name: 'Vendor Parts',
+      path: 'vendor-parts',
+      component: () => import ('../views/vendor/VendorPartsPage.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
 
     //
     {

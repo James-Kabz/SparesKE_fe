@@ -36,6 +36,7 @@ const formFields = [
     type: 'text',
     placeholder: 'Enter location',
     required: true,
+    errorMessage: 'Location is required',
   },
   {
     name: 'contact_number',
@@ -43,13 +44,14 @@ const formFields = [
     type: 'text',
     placeholder: 'Enter contact number',
     required: true,
+    errorMessage: 'Contact number is required',
   },
   {
     name: 'active',
     label: 'Active',
     type: 'switch',
-    placeholder: 'Enter contact number',
-    required: true,
+    placeholder: 'Choose status',
+    required: false,
   }
 ]
 
