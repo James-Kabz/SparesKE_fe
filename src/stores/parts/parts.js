@@ -12,6 +12,43 @@ export const usePartStore = defineStore("parts", {
   }),
 
   actions: {
+    // fetch vendor parts
+    async fetchVendorParts() {
+      this.isLoading = true
+      try {
+        const response = await fetchWrapper.get(`/vendor/parts`)
+        const parts = response.data.part || response.data
+        // Convert availability to boolean
+        this.part = parts.map(part => ({
+          ...part,
+          availability: Boolean(part.availability)
+        }))
+        return { success: true }
+      } catch (error) {
+        const errorMessage = error?.response?.data?.message || error?.message || 'Failed to fetch parts'
+        toast.error('Failed to fetch parts', { description: errorMessage })
+        return { success: false, error }
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    // fetch vendor part
+    async fetchVendorPart(id) {
+      this.isLoading = true
+      try {
+        const response = await fetchWrapper.get(`/vendor/parts/${id}`)
+        this.part = response.data.part || response.data
+        return { success: true }
+      } catch (error) {
+        const errorMessage = error?.response?.data?.message || error?.message || 'Failed to fetch part'
+        toast.error('Failed to fetch part', { description: errorMessage })
+        return { success: false, error }
+      } finally {
+        this.isLoading = false
+      }
+    },
+    
     // fetch all parts
     async fetchParts() {
       this.isLoading = true
@@ -34,10 +71,10 @@ export const usePartStore = defineStore("parts", {
     },
 
     // fetch single part
-    async fetchPart() {
+    async fetchPart(id) {
       this.isLoading = true
       try {
-        const response = await fetchWrapper.get(`/part`)
+        const response = await fetchWrapper.get(`parts/${id}`)
         this.part = response.data.part || response.data
         return { success: true }
       } catch (error) {
@@ -53,7 +90,7 @@ export const usePartStore = defineStore("parts", {
     async createPart(part) {
       this.isLoading = true
       try {
-        const response = await fetchWrapper.post(`/part`, part)
+        const response = await fetchWrapper.post(`vendor/parts`, part)
         this.part = response.data.part || response.data
         return { success: true }
       } catch (error) {
@@ -66,10 +103,10 @@ export const usePartStore = defineStore("parts", {
     },
 
     // update part
-    async updatePart(part) {
+    async updatePart(id, data) {
       this.isLoading = true
       try {
-        const response = await fetchWrapper.put(`/part`, part)
+        const response = await fetchWrapper.put(`vendor/parts/${id}`, data)
         this.part = response.data.part || response.data
         return { success: true }
       } catch (error) {
@@ -82,10 +119,10 @@ export const usePartStore = defineStore("parts", {
     },
 
     // delete part
-    async deletePart(part) {
+    async deletePart(id) {
       this.isLoading = true
       try {
-        const response = await fetchWrapper.delete(`/part`, part)
+        const response = await fetchWrapper.delete(`vendor/parts/${id}`)
         this.part = response.data.part || response.data
         return { success: true }
       } catch (error) {

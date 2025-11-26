@@ -96,7 +96,7 @@ const allNavigationItems = [
     label: 'Part',
     route: '/parts',
     icon: 'cube',
-    permission: 'view.user',
+    permission: 'view.vendor_parts',
   },
   {
     type: 'link',

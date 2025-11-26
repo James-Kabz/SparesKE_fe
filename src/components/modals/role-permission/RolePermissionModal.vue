@@ -121,7 +121,7 @@ const revokeAlertActions = [
 </script>
 
 <template>
-  <Modal v-model="isOpen" :show-close="true" :close-on-backdrop="true" @close="handleClose">
+  <Modal size="6xl" v-model="isOpen" :show-close="true" :close-on-backdrop="true" @close="handleClose">
     <div class="mb-4">
       <Typography class="text-lg font-semibold text-gray-900"
         >Manage Roles for {{ role?.name }}</Typography
