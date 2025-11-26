@@ -24,7 +24,7 @@ const currentVendor = ref(null)
 const selectedField = ref(null)
 const selectedFields = ref([])
 
-const formFields = [
+const formFields = computed(() => [
   {
     name: 'name',
     label: 'Part Name',
@@ -98,7 +98,7 @@ const formFields = [
     placeholder: 'Upload image',
     required: false,
   }
-]
+])
 
 const allColumns = [
   { key: 'name', label: 'Car Part Name', sortable: true },
@@ -229,7 +229,7 @@ const handleOrgTypeFormSubmit = async ({ formData, modalType, originalData }) =>
 
   if (result.success) {
     await partsStore.fetchVendorParts()
-    vendorParts.value = partsStore.parts
+    vendorParts.value = partsStore.part
     closeModal()
   }
 }
@@ -239,7 +239,7 @@ const handleConfirmDelete = async ({ id }) => {
 
   if (result.success) {
     await partsStore.fetchVendorParts()
-    vendorParts.value = partsStore.parts
+    vendorParts.value = partsStore.part
     closeModal()
   }
 }
@@ -254,7 +254,7 @@ onMounted(async () => {
   // Then fetch pickup points
   const result = await partsStore.fetchVendorParts()
   if (result.success) {
-    vendorParts.value = partsStore.parts
+    vendorParts.value = partsStore.part
   }
 
   // initialize categories

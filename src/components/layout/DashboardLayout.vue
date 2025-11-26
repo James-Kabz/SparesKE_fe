@@ -112,7 +112,7 @@ const allNavigationItems = [
     label: 'Part',
     route: '/parts',
     icon: 'cube',
-    permission: 'view.vendor_parts',
+    permission: 'view.public_parts',
   },
   {
     type: 'link',

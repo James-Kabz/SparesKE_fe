@@ -6,7 +6,7 @@ import { defineStore } from "pinia";
 export const usePartStore = defineStore("parts", {
 
   state: () => ({
-    parts: [],
+    part: [],
     isLoading: false,
     loading: false,
   }),
@@ -17,9 +17,9 @@ export const usePartStore = defineStore("parts", {
       this.isLoading = true
       try {
         const response = await fetchWrapper.get(`/vendor/parts`)
-        const parts = response.data.parts || response.data
+        const parts = response.data.part || response.data
         // Convert availability to boolean
-        this.parts = parts.map(part => ({
+        this.part = parts.map(part => ({
           ...part,
           availability: Boolean(part.availability)
         }))
@@ -38,7 +38,7 @@ export const usePartStore = defineStore("parts", {
       this.isLoading = true
       try {
         const response = await fetchWrapper.get(`/vendor/parts/${id}`)
-        this.part = response.data.parts || response.data
+        this.part = response.data.part || response.data
         return { success: true }
       } catch (error) {
         const errorMessage = error?.response?.data?.message || error?.message || 'Failed to fetch part'
@@ -54,7 +54,7 @@ export const usePartStore = defineStore("parts", {
       this.isLoading = true
       try {
         const response = await fetchWrapper.get(`/parts`)
-        const parts = response.data.parts || response.data
+        const parts = response.data.part || response.data
         // Convert availability to boolean
         this.part = parts.map(part => ({
           ...part,
@@ -74,8 +74,8 @@ export const usePartStore = defineStore("parts", {
     async fetchPart(id) {
       this.isLoading = true
       try {
-        const response = await fetchWrapper.get(`parts/${id}`)
-        this.part = response.data.parts || response.data
+        const response = await fetchWrapper.get(`/parts/${id}`)
+        this.part = response.data.part || response.data
         return { success: true }
       } catch (error) {
         const errorMessage = error?.response?.data?.message || error?.message || 'Failed to fetch part'
@@ -90,8 +90,9 @@ export const usePartStore = defineStore("parts", {
     async createPart(part) {
       this.isLoading = true
       try {
-        const response = await fetchWrapper.post(`vendor/parts`, part)
-        this.part = response.data.parts || response.data
+        const response = await fetchWrapper.post(`/vendor/parts`, part)
+        this.part = response.data.part || response.data
+        toast.success('Part created successfully!')
         return { success: true }
       } catch (error) {
         const errorMessage = error?.response?.data?.message || error?.message || 'Failed to create part'
@@ -106,8 +107,9 @@ export const usePartStore = defineStore("parts", {
     async updatePart(id, data) {
       this.isLoading = true
       try {
-        const response = await fetchWrapper.put(`vendor/parts/${id}`, data)
-        this.part = response.data.parts || response.data
+        const response = await fetchWrapper.put(`/vendor/parts/${id}`, data)
+        this.part = response.data.part || response.data
+        toast.success('Part updated successfully!')
         return { success: true }
       } catch (error) {
         const errorMessage = error?.response?.data?.message || error?.message || 'Failed to update part'
@@ -122,8 +124,9 @@ export const usePartStore = defineStore("parts", {
     async deletePart(id) {
       this.isLoading = true
       try {
-        const response = await fetchWrapper.delete(`vendor/parts/${id}`)
-        this.part = response.data.parts || response.data
+        const response = await fetchWrapper.delete(`/vendor/parts/${id}`)
+        this.part = response.data.part || response.data
+        toast.success('Part deleted successfully!')
         return { success: true }
       } catch (error) {
         const errorMessage = error?.response?.data?.message || error?.message || 'Failed to delete part'
