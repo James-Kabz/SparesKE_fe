@@ -108,12 +108,7 @@ const hasOrders = computed(() => {
 </script>
 
 <template>
-  <Modal
-    v-model="isOpen"
-    size="full"
-    height="auto"
-    @close="closeModal"
-  >
+  <Modal v-model="isOpen" size="full" height="auto" @close="closeModal">
     <div v-if="loading" class="flex items-center justify-center py-12">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
     </div>
@@ -139,27 +134,18 @@ const hasOrders = computed(() => {
 
         <!-- Quick Actions -->
         <div class="flex gap-3 mt-4">
-          <button
-            v-if="onEdit"
-            @click="onEdit(part)"
-            class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors"
-          >
+          <button v-if="onEdit" @click="onEdit(part)"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors">
             <Icon icon="edit" class="w-4 h-4" />
             Edit Part
           </button>
-          <button
-            v-if="onToggleAvailability"
-            @click="onToggleAvailability(part)"
-            class="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 text-white text-sm font-medium rounded-md hover:bg-amber-700 transition-colors"
-          >
+          <button v-if="onToggleAvailability" @click="onToggleAvailability(part)"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 text-white text-sm font-medium rounded-md hover:bg-amber-700 transition-colors">
             <Icon icon="box" class="w-4 h-4" />
             {{ part.availability ? 'Mark Out of Stock' : 'Mark In Stock' }}
           </button>
-          <button
-            v-if="onDelete"
-            @click="onDelete(part)"
-            class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 transition-colors"
-          >
+          <button v-if="onDelete" @click="onDelete(part)"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 transition-colors">
             <Icon icon="trash" class="w-4 h-4" />
             Delete Part
           </button>
@@ -170,6 +156,21 @@ const hasOrders = computed(() => {
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- Left Column - Images & Specs -->
         <div class="lg:col-span-2 space-y-6">
+
+          <!-- Specifications Panel -->
+          <div class="bg-white rounded-lg border p-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <Icon icon="list" class="w-5 h-5" />
+              Part Specifications
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div v-for="spec in specifications" :key="spec.label" class="border-b pb-3">
+                <dt class="text-sm font-medium text-gray-500 mb-1">{{ spec.label }}</dt>
+                <dd class="text-sm text-gray-900 font-medium">{{ spec.value }}</dd>
+              </div>
+            </div>
+          </div>
+
           <!-- Images Section -->
           <div class="bg-white rounded-lg border p-4">
             <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
@@ -180,28 +181,16 @@ const hasOrders = computed(() => {
             <div v-if="part.images && part.images.length > 0" class="space-y-4">
               <!-- Main Image Display -->
               <div class="relative aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                <img
-                  :src="part.images[0]"
-                  alt="Part Image"
-                  class="w-full h-full object-contain cursor-pointer"
-                  @click="handleImageClick(0)"
-                />
+                <img :src="part.images[0]" alt="Part Image" class="w-full h-full object-contain cursor-pointer"
+                  @click="handleImageClick(0)" />
               </div>
 
               <!-- Thumbnail Grid -->
               <div class="grid grid-cols-4 gap-3">
-                <div
-                  v-for="(image, index) in part.images"
-                  :key="index"
+                <div v-for="(image, index) in part.images" :key="index"
                   class="relative aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer border-2 hover:border-blue-500 transition-colors"
-                  :class="{ 'border-blue-500': index === selectedImageIndex }"
-                  @click="handleImageClick(index)"
-                >
-                  <img
-                    :src="image"
-                    :alt="`Part Image ${index + 1}`"
-                    class="w-full h-full object-cover"
-                  />
+                  :class="{ 'border-blue-500': index === selectedImageIndex }" @click="handleImageClick(index)">
+                  <img :src="image" :alt="`Part Image ${index + 1}`" class="w-80 h-80 object-cover" />
                 </div>
               </div>
             </div>
@@ -209,24 +198,6 @@ const hasOrders = computed(() => {
             <div v-else class="text-center py-8 bg-gray-50 rounded-lg">
               <Icon icon="image" class="w-12 h-12 mx-auto text-gray-400 mb-2" />
               <p class="text-gray-500 text-sm">No images available</p>
-            </div>
-          </div>
-
-          <!-- Specifications Panel -->
-          <div class="bg-white rounded-lg border p-4">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Icon icon="list" class="w-5 h-5" />
-              Part Specifications
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div
-                v-for="spec in specifications"
-                :key="spec.label"
-                class="border-b pb-3"
-              >
-                <dt class="text-sm font-medium text-gray-500 mb-1">{{ spec.label }}</dt>
-                <dd class="text-sm text-gray-900 font-medium">{{ spec.value }}</dd>
-              </div>
             </div>
           </div>
         </div>
@@ -241,11 +212,7 @@ const hasOrders = computed(() => {
             </h3>
 
             <div v-if="hasOrders" class="space-y-3">
-              <div
-                v-for="order in part.orders"
-                :key="order.id"
-                class="p-3 bg-gray-50 rounded-lg border"
-              >
+              <div v-for="order in part.orders" :key="order.id" class="p-3 bg-gray-50 rounded-lg border">
                 <div class="flex items-start justify-between mb-2">
                   <span class="text-sm font-medium text-gray-900">Order #{{ order.id }}</span>
                   <Badge :variant="order.status === 'pending' ? 'warning' : 'success'" class="text-xs">
@@ -273,11 +240,7 @@ const hasOrders = computed(() => {
             </h3>
 
             <div class="space-y-3">
-              <div
-                v-for="order in part.orders"
-                :key="order.pickup_point?.id"
-                class="p-3 bg-gray-50 rounded-lg border"
-              >
+              <div v-for="order in part.orders" :key="order.pickup_point?.id" class="p-3 bg-gray-50 rounded-lg border">
                 <h4 class="text-sm font-semibold text-gray-900 mb-2">{{ order.pickup_point?.name }}</h4>
                 <div class="space-y-1 text-xs text-gray-600">
                   <p class="flex items-start gap-2">
@@ -304,11 +267,8 @@ const hasOrders = computed(() => {
             </h3>
 
             <div class="space-y-3">
-              <div
-                v-for="report in pendingReports"
-                :key="report.id"
-                class="p-3 bg-white rounded-lg border border-red-200"
-              >
+              <div v-for="report in pendingReports" :key="report.id"
+                class="p-3 bg-white rounded-lg border border-red-200">
                 <div class="flex items-start justify-between mb-2">
                   <span class="text-xs font-medium text-gray-500">Report #{{ report.id }}</span>
                   <Badge variant="warning" class="text-xs">{{ report.status }}</Badge>
@@ -325,32 +285,18 @@ const hasOrders = computed(() => {
     </div>
 
     <!-- Image Lightbox Modal -->
-    <Modal
-      v-model="showImageModal"
-      size="5xl"
-      @close="showImageModal = false"
-    >
+    <Modal v-model="showImageModal" size="5xl" @close="showImageModal = false">
       <div class="relative">
-        <img
-          v-if="part?.images?.[selectedImageIndex]"
-          :src="part.images[selectedImageIndex]"
-          alt="Part Image Enlarged"
-          class="w-full h-auto max-h-[80vh] object-contain"
-        />
+        <img v-if="part?.images?.[selectedImageIndex]" :src="part.images[selectedImageIndex]" alt="Part Image Enlarged"
+          class="w-full h-auto max-h-[80vh] object-contain" />
 
         <!-- Navigation Buttons -->
-        <button
-          v-if="part?.images?.length > 1"
-          @click="previousImage"
-          class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-3 transition-colors"
-        >
+        <button v-if="part?.images?.length > 1" @click="previousImage"
+          class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-3 transition-colors">
           <Icon icon="chevron-left" class="w-6 h-6" />
         </button>
-        <button
-          v-if="part?.images?.length > 1"
-          @click="nextImage"
-          class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-3 transition-colors"
-        >
+        <button v-if="part?.images?.length > 1" @click="nextImage"
+          class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-3 transition-colors">
           <Icon icon="chevron-right" class="w-6 h-6" />
         </button>
 
