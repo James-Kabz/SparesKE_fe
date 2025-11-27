@@ -1,5 +1,6 @@
 <script setup>
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal.vue'
+import PartDetailsModal from '@/components/modals/vendor/PartDetailsModal.vue'
 import { useAuth } from '@/composables/useAuth'
 import { useCategoryStore } from '@/stores/parts/category'
 import { usePartStore } from '@/stores/parts/parts'
@@ -130,6 +131,14 @@ const addButton = computed(() => ({
 
 const tableActions = computed(() => [
   {
+    key: 'view',
+    icon: 'eye',
+    variant: 'info',
+    tooltip: 'View Details',
+    permission: true,
+    onClick: (part) => openModal('view', part),
+  },
+  {
     key: 'edit',
     icon: 'edit',
     variant: 'default',
@@ -150,6 +159,7 @@ const tableActions = computed(() => [
 const modals = ref({
   form: { show: false, type: 'create' },
   delete: { show: false },
+  details: { show: false },
 })
 
 const filteredResults = computed(() => {
@@ -178,6 +188,9 @@ const openModal = async (type, part = null) => {
 
   // open specific modal
   switch (type) {
+    case 'view':
+      modals.value.details.show = true
+      break
     case 'create':
       modals.value.form.show = true
       modals.value.form.type = 'create'
@@ -198,6 +211,38 @@ const closeModal = () => {
   })
   selectedField.value = null
 }
+
+const handleToggleAvailability = async (part) => {
+  const result = await partsStore.updatePart(part.id, {
+    availability: part.availability ? 0 : 1
+  })
+
+  if (result.success) {
+    await partsStore.fetchVendorParts()
+    vendorParts.value = partsStore.part
+
+    // Update selectedField if details modal is open
+    if (modals.value.details.show && selectedField.value) {
+      const updatedPart = vendorParts.value.find(p => p.id === selectedField.value.id)
+      if (updatedPart) {
+        selectedField.value = updatedPart
+      }
+    }
+  }
+}
+
+const handleEditFromDetails = (part) => {
+  // Close details modal and open edit modal
+  modals.value.details.show = false
+  openModal('edit', part)
+}
+
+const handleDeleteFromDetails = (part) => {
+  // Close details modal and open delete modal
+  modals.value.details.show = false
+  openModal('delete', part)
+}
+
 const clearAllFilters = () => {
   searchQuery.value = ''
 }
@@ -252,7 +297,7 @@ onMounted(async () => {
     currentVendor.value = vendorResult.vendor
   }
 
-  // Then fetch pickup points
+  // Then fetch vendor parts
   const result = await partsStore.fetchVendorParts()
   if (result.success) {
     vendorParts.value = partsStore.part
@@ -299,6 +344,7 @@ onMounted(async () => {
         :showPagination="true"
         emptyText="No Car Parts found"
         @selection-change="selectedFields = $event"
+        @row-click="(part) => openModal('view', part)"
       >
         <template #cell-availability="{ item }">
           <Badge :variant="item.availability ? 'success' : 'warning'">
@@ -337,6 +383,17 @@ onMounted(async () => {
           </div>
         </template>
       </DataTable>
+
+    <!-- Part Details Modal -->
+    <PartDetailsModal
+      v-model="modals.details.show"
+      :part="selectedField"
+      :loading="partsStore.isLoading"
+      :on-edit="handleEditFromDetails"
+      :on-delete="handleDeleteFromDetails"
+      :on-toggle-availability="handleToggleAvailability"
+      @close="closeModal"
+    />
 
     <ReusableFormModal
       v-model="modals.form.show"
