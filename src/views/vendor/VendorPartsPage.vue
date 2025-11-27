@@ -4,6 +4,7 @@ import { useAuth } from '@/composables/useAuth'
 import { useCategoryStore } from '@/stores/parts/category'
 import { usePartStore } from '@/stores/parts/parts'
 import { useVendorStore } from '@/stores/vendor/vendor'
+import { getPartImageUrl } from '@/utils/helpers/imageHelper'
 import {
   Badge,
   DataTable,
@@ -94,7 +95,7 @@ const formFields = computed(() => [
   {
     name: 'image',
     label: 'Image',
-    type: 'url',
+    type: 'file',
     placeholder: 'Upload image',
     required: false,
   }
@@ -303,6 +304,37 @@ onMounted(async () => {
           <Badge :variant="item.availability ? 'success' : 'warning'">
             {{ item.availability ? 'Active' : 'Inactive' }}
           </Badge>
+        </template>
+
+        <!-- display image using partImageUrl -->
+         <template #cell-image="{ item }">
+          <div class="flex -space-x-2">
+            <!-- Show first 3 images -->
+            <template v-if="item.images && item.images.length > 0">
+              <img
+                v-for="(image, index) in item.images.slice(0, 3)"
+                :key="index"
+                :src="image"
+                alt="Part Image"
+                class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm"
+                :style="{ zIndex: 3 - index }"
+              />
+              <!-- Show count badge if more than 3 images -->
+              <div
+                v-if="item.images.length > 3"
+                class="w-10 h-10 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs font-medium text-gray-600"
+              >
+                +{{ item.images.length - 3 }}
+              </div>
+            </template>
+            <!-- Fallback for no images -->
+            <img
+              v-else
+              :src="getPartImageUrl(item)"
+              alt="Part Image"
+              class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm"
+            />
+          </div>
         </template>
       </DataTable>
 
