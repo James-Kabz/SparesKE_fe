@@ -167,7 +167,7 @@ const hasOrders = computed(() => {
       </div>
 
       <!-- Main Content Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- Left Column - Images & Specs -->
         <div class="lg:col-span-2 space-y-6">
           <!-- Images Section -->
@@ -315,7 +315,7 @@ const hasOrders = computed(() => {
                 </div>
                 <p class="text-sm text-gray-700">{{ report.reason }}</p>
                 <p class="text-xs text-gray-500 mt-2">
-                  Reported by User ID: {{ report.user_id }}
+                  Reported by {{ report.user.name }}
                 </p>
               </div>
             </div>
