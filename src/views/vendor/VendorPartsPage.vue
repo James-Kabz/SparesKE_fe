@@ -243,6 +243,11 @@ const handleDeleteFromDetails = (part) => {
   openModal('delete', part)
 }
 
+const handleRowClick = ({item}) => {
+  selectedField.value = item
+  modals.value.details.show = true
+}
+
 const clearAllFilters = () => {
   searchQuery.value = ''
 }
@@ -344,7 +349,7 @@ onMounted(async () => {
         :showPagination="true"
         emptyText="No Car Parts found"
         @selection-change="selectedFields = $event"
-        @row-click="(part) => openModal('view', part)"
+        @row-click="handleRowClick"
       >
         <template #cell-availability="{ item }">
           <Badge :variant="item.availability ? 'success' : 'warning'">

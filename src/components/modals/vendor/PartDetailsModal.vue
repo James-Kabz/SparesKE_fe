@@ -110,7 +110,7 @@ const hasOrders = computed(() => {
 <template>
   <Modal
     v-model="isOpen"
-    size="6xl"
+    size="full"
     height="auto"
     @close="closeModal"
   >
